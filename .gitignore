@@ -133,3 +133,4 @@ venv/
 config.py
 .idea/
 .DS_Store
+*.csv
