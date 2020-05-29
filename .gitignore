@@ -134,3 +134,4 @@ config.py
 .idea/
 .DS_Store
 *.csv
+*.json
