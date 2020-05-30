@@ -54,3 +54,22 @@ def string_array_clean(df_col, element):
     df_col = df_col.apply(lambda x: np.nan if len(x) == 0 else x)                           # Replace empty list
 
     return df_col
+
+
+def uniques_from_list(df_col):
+    """
+    Function to create dictionary with number of times an item appears in a column made of lists
+    :param df_col: pandas series from dataframe, e.g. df[col]
+    :return count_dict: dictionary with distinct elements as keys and number of times they appear as values
+    """
+    count_dict = {}
+    for index in range(df_col.shape[0]):
+        obs = df_col[index]
+        if obs is not np.nan:
+            for item in obs:
+                item = str(item)
+                if item in count_dict.keys():
+                    count_dict[item] +=1
+                else:
+                    count_dict[item] = 1
+    return count_dict
