@@ -4,6 +4,7 @@ import os
 from tqdm import tqdm
 import pandas as pd
 import numpy as np
+import seaborn as sns
 
 
 def create_jsons():
@@ -77,7 +78,7 @@ def uniques_from_list(df_col):
 
 def top_rep(x_i, top_list, number_of_x_i=False, indicate=False):
     """
-    Function to
+    Function to indicate either the proportion an element appears in another, or indicate if it does at all
     :param x_i: element of dataframe column
     :param top_list: list of top elements in a dataframe
     :param number_of_x_i: boolean to indicate return of the number of elements in x_i
@@ -104,3 +105,34 @@ def top_rep(x_i, top_list, number_of_x_i=False, indicate=False):
         return dummy
     else:
         return prop_top
+
+
+def col_arr_parse(df, col, suppress=False):
+    """
+    Function to handle the columns that contain arrays
+    :param df: dataframe holding the column of interest
+    :param col: the column of interest
+    :param suppress: boolean to suppress display
+    :return col_info:
+    :return top:
+    """
+    uniques = uniques_from_list(df[col])
+    col_info = pd.DataFrame.from_dict(
+        uniques, orient='index', columns=['num_obs'])\
+        .sort_values('num_obs', ascending=False)
+    col_info['prop'] = round(col_info['num_obs'] / df.shape[0], 4) * 100
+    col_info = col_info.reset_index().rename(columns={'index': col})
+
+    if col_info.shape[0] > 9:
+        top = list(col_info[col].head(10))
+    else:
+        top = list(col_info[col])
+
+    if suppress is False:
+        print(col_info.head(10))
+        sns.barplot(x=col_info[col].head(4), y=col_info['num_obs'].head(4))
+        print("Average: {:,}".format(round(np.mean(col_info['num_obs']))))
+        print("Median: {:,}".format(round(np.median(col_info['num_obs']))))
+        print("Number of distinct: {:,}".format(col_info.shape[0]))
+
+    return top
