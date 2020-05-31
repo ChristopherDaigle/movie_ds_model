@@ -51,7 +51,7 @@ def string_array_clean(df_col, element):
     :return pandas series with string turned into list of elements and empty lists as np.nan
     """
     df_col = df_col.apply(lambda x: [i[element] for i in json.loads(x.replace("'", ""))])   # Create list
-    df_col = df_col.apply(lambda x: np.nan if len(x) == 0 else x)                           # Replace empty list
+    df_col = df_col.apply(lambda x: None if len(x) == 0 else x)                           # Replace empty list
 
     return df_col
 
@@ -65,11 +65,42 @@ def uniques_from_list(df_col):
     count_dict = {}
     for index in range(df_col.shape[0]):
         obs = df_col[index]
-        if obs is not np.nan:
+        if obs is not None:
             for item in obs:
                 item = str(item)
                 if item in count_dict.keys():
-                    count_dict[item] +=1
+                    count_dict[item] += 1
                 else:
                     count_dict[item] = 1
     return count_dict
+
+
+def top_rep(x_i, top_list, number_of_x_i=False, indicate=False):
+    """
+    Function to
+    :param x_i: element of dataframe column
+    :param top_list: list of top elements in a dataframe
+    :param number_of_x_i: boolean to indicate return of the number of elements in x_i
+    :param indicate: boolean to indicate return of 0/1 value instead of proportion
+    :return num_elem: number of elements in x_i
+    :return prop_top: proportion of elements in x_i that are members of top_list
+    :return dummy: indication of element belonging to the top_list or not
+    """
+    if x_i is not None:
+        elem_list = x_i
+        num_elem = len(elem_list)
+        prop_top = len(np.intersect1d(x_i, top_list)) / len(top_list)
+        dummy = 0
+        if prop_top > 0:
+            dummy = 1
+    else:
+        num_elem = None
+        prop_top = None
+        dummy = None
+
+    if number_of_x_i is True:
+        return num_elem, prop_top
+    if indicate is True:
+        return dummy
+    else:
+        return prop_top
