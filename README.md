@@ -1,5 +1,6 @@
 # Movie Data Analysis
-This repository is related to data science work I have done around movie data (ratings, revenue, etc.) 
+This repository is related to data science work I have done around movie data (ratings, revenue, etc.)<br>
+[The Medium Article Can Be Viewed Here](https://medium.com/@pcjdaigle/do-you-have-to-make-a-good-movie-to-make-money-228cb0babd47)
 
 ---
 ## Motivation
