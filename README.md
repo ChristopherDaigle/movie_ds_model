@@ -17,7 +17,8 @@ My current portfolio consists of no media related projects; I’m interested in 
 
 ---
 ## Files
-```├── README.md - a markdown file about this repo
+```
+├── README.md - a markdown file about this repo
 ├── data - a directory containing data (note, the data is too large to store on GitHub without a LFS account)
 │   ├── movie_data.csv - data used in this analysis, built from ../data_engineering/dl_tmdb.py
 ├── data_engineering - directory containing modules used to perform data engineering tasks
